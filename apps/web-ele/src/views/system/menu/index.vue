@@ -44,14 +44,10 @@ function onEditorSuccess() {
 <template>
   <div class="flex flex-col gap-4 p-4">
     <SearchForm @reset="onReset" @search="onSearch" />
-    <MenuTable
-      ref="tableRef"
-      :search-params="searchParams"
-      @edit="onEdit"
-    >
+    <MenuTable ref="tableRef" :search-params="searchParams" @edit="onEdit">
       <template #toolbar-extra>
         <ElButton type="primary" @click="onAdd">
-          <Plus class="size-4 mr-1" />
+          <Plus class="mr-1 size-4" />
           新增菜单
         </ElButton>
       </template>

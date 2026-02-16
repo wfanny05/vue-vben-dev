@@ -47,6 +47,8 @@ interface Props {
   /** 图标样式 */
   iconClass?: string;
   type?: 'icon' | 'input';
+  /** 弹出层插入位置 */
+  appendTo?: HTMLElement | string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -59,6 +61,7 @@ const props = withDefaults(defineProps<Props>(), {
   modelValueProp: 'modelValue',
   inputComponent: undefined,
   type: 'input',
+  appendTo: 'body',
 });
 
 const emit = defineEmits<{
@@ -185,6 +188,7 @@ defineExpose({ toggleOpenState, open, close });
     :content-props="{ align: 'end', alignOffset: -11, sideOffset: 8 }"
     content-class="p-0 pt-3 w-full"
     trigger-class="w-full"
+    :append-to="appendTo"
   >
     <template #trigger>
       <template v-if="props.type === 'input'">

@@ -5,7 +5,7 @@ import type { MenuFormData, MenuInfo } from '#/types/system/menu';
 
 import { computed, ref, watch } from 'vue';
 
-import { IconPicker } from '@vben/common-ui';
+import { globalShareState } from '@vben/common-ui';
 
 import {
   ElButton,
@@ -41,6 +41,8 @@ const emit = defineEmits<{
   success: [];
   'update:visible': [v: boolean];
 }>();
+
+const IconPicker = globalShareState.getComponents().IconPicker;
 
 const isEdit = computed(() => !!props.initialData?.id);
 
@@ -182,11 +184,16 @@ async function onSubmit() {
         <ElInput v-model="form.routePath" placeholder="请输入路由地址" />
       </ElFormItem>
       <ElFormItem label="图标" prop="menuIcon">
-        <IconPicker
-          v-model="form.menuIcon"
-          placeholder="请选择图标"
-          class="w-full"
-        />
+        <div class="w-full">
+          <div id="menu-editor__icon-picker-container"></div>
+          <IconPicker
+            v-model="form.menuIcon"
+            placeholder="请选择图标"
+            class="w-full"
+            append-to="#menu-editor__icon-picker-container"
+            prefix="ep"
+          />
+        </div>
       </ElFormItem>
       <ElFormItem label="排序值" prop="menuSort">
         <ElInputNumber

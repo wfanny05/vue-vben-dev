@@ -18,6 +18,7 @@ import {
 } from '../../ui';
 
 interface Props extends PopoverRootProps {
+  appendTo?: HTMLElement | string;
   class?: ClassType;
   contentClass?: ClassType;
   contentProps?: PopoverContentProps;
@@ -52,6 +53,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
         :class="contentClass"
         class="side-content z-popup"
         v-bind="contentProps"
+        :append-to="appendTo"
       >
         <slot></slot>
       </PopoverContent>

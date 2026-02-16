@@ -1,8 +1,10 @@
+import type { VbenViteConfig } from '@vben/vite-config';
+
 import { defineConfig } from '@vben/vite-config';
 
 import ElementPlus from 'unplugin-element-plus/vite';
 
-export default defineConfig(async () => {
+const config: VbenViteConfig = defineConfig(async () => {
   return {
     application: {},
     vite: {
@@ -25,3 +27,5 @@ export default defineConfig(async () => {
     },
   };
 });
+
+export default config;
