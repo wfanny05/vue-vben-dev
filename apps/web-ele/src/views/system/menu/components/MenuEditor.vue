@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus';
 
+import type { DictItem } from '#/api/system/dict';
 import type { MenuFormData, MenuInfo } from '#/types/system/menu';
 
 import { computed, ref, watch } from 'vue';
@@ -21,6 +22,7 @@ import {
   ElTreeSelect,
 } from 'element-plus';
 
+import { getDictListApi } from '#/api/system/dict';
 import {
   createMenuApi,
   getMenuListApi,
@@ -62,13 +64,18 @@ const form = ref<MenuFormData>({
   menuIcon: '',
   menuSort: 0,
   menuStatus: 1,
+  sysCode: '',
 });
 
 const rules: FormRules = {
   name: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }],
   menuType: [{ required: true, message: '请选择菜单类型', trigger: 'change' }],
   routePath: [{ required: true, message: '请输入路由地址', trigger: 'blur' }],
+  sysCode: [{ required: true, message: '请选择系统', trigger: 'change' }],
 };
+
+/** 系统字典选项（从字典接口 code=sysCode 获取） */
+const sysCodeList = ref<DictItem[]>([]);
 
 /** 树节点：用于 el-tree-select */
 interface TreeNode {
@@ -100,11 +107,16 @@ async function loadParentOptions() {
   parentTreeOptions.value = tree;
 }
 
+async function loadSysCodeList() {
+  const list = await getDictListApi({ code: 'sysCode' });
+  sysCodeList.value = list ?? [];
+}
+
 watch(
   () => props.visible,
   async (visible) => {
     if (visible) {
-      await loadParentOptions();
+      await Promise.all([loadParentOptions(), loadSysCodeList()]);
       form.value = props.initialData
         ? {
             parentId: props.initialData.parentId ?? null,
@@ -114,6 +126,7 @@ watch(
             menuIcon: props.initialData.menuIcon ?? '',
             menuSort: props.initialData.menuSort ?? 0,
             menuStatus: props.initialData.menuStatus ?? 1,
+            sysCode: props.initialData.sysCode ?? '',
           }
         : {
             parentId: null,
@@ -123,6 +136,7 @@ watch(
             menuIcon: '',
             menuSort: 0,
             menuStatus: 1,
+            sysCode: '',
           };
     }
   },
@@ -172,6 +186,21 @@ async function onSubmit() {
         >
           <ElOption
             v-for="opt in menuTypeOptions"
+            :key="opt.value"
+            :label="opt.label"
+            :value="opt.value"
+          />
+        </ElSelect>
+      </ElFormItem>
+      <ElFormItem label="系统" prop="sysCode">
+        <ElSelect
+          v-model="form.sysCode"
+          placeholder="请选择系统"
+          class="w-full"
+          clearable
+        >
+          <ElOption
+            v-for="opt in sysCodeList"
             :key="opt.value"
             :label="opt.label"
             :value="opt.value"

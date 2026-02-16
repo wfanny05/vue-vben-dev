@@ -59,6 +59,7 @@ export default defineEventHandler(async (event) => {
     ...(body?.menuIcon !== undefined && { menuIcon: body.menuIcon }),
     ...(body?.menuSort !== undefined && { menuSort: body.menuSort }),
     ...(body?.menuStatus !== undefined && { menuStatus: body.menuStatus }),
+    ...(body?.sysCode !== undefined && { sysCode: body.sysCode }),
   });
 
   return useResponseSuccess(updated);

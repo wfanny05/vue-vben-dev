@@ -3,11 +3,18 @@ import type { MenuSearchParams } from '#/types/system/menu';
 
 import { reactive, ref } from 'vue';
 
-import { ElButton, ElForm, ElFormItem, ElInput, ElSelect, ElOption } from 'element-plus';
+import {
+  ElButton,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElOption,
+  ElSelect,
+} from 'element-plus';
 
 const emit = defineEmits<{
-  search: [params: MenuSearchParams];
   reset: [];
+  search: [params: MenuSearchParams];
 }>();
 
 const form = reactive<MenuSearchParams>({

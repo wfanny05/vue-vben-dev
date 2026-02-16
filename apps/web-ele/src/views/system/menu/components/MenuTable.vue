@@ -4,7 +4,6 @@ import type { MenuInfo, MenuSearchParams } from '#/types/system/menu';
 
 import { computed } from 'vue';
 
-import { Page } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 
 import {
@@ -151,52 +150,50 @@ defineExpose({ query: doQuery });
 </script>
 
 <template>
-  <Page auto-content-height>
-    <Grid>
-      <template #toolbar-tools>
-        <slot name="toolbar-extra"></slot>
-      </template>
-      <template #name="{ row }">
-        <span>{{ row.name }}</span>
-      </template>
-      <template #icon="{ row }">
-        <IconifyIcon
-          v-if="row.menuIcon"
-          :icon="row.menuIcon"
-          class="inline-block size-5"
-        />
-        <span v-else class="text-gray-400">-</span>
-      </template>
-      <template #status="{ row }">
-        <ElSwitch
-          :model-value="row.menuStatus === 1"
-          @update:model-value="
-            (v: string | number | boolean) => onStatusChange(row, v ? 1 : 0)
-          "
-        />
-      </template>
-      <template #operation="{ row }">
-        <ElButton link type="primary" size="small" @click="onEdit(row)">
-          编辑
-        </ElButton>
-        <ElTooltip
-          v-if="hasChildren(row)"
-          content="存在子菜单，无法删除"
-          placement="top"
-        >
-          <span>
-            <ElButton link type="danger" size="small" disabled> 删除 </ElButton>
-          </span>
-        </ElTooltip>
-        <ElButton v-else link type="danger" size="small" @click="onDelete(row)">
-          删除
-        </ElButton>
-      </template>
-      <template #empty>
-        <ElEmpty description="暂无菜单数据">
-          <slot name="empty-extra"></slot>
-        </ElEmpty>
-      </template>
-    </Grid>
-  </Page>
+  <Grid>
+    <template #toolbar-tools>
+      <slot name="toolbar-extra"></slot>
+    </template>
+    <template #name="{ row }">
+      <span>{{ row.name }}</span>
+    </template>
+    <template #icon="{ row }">
+      <IconifyIcon
+        v-if="row.menuIcon"
+        :icon="row.menuIcon"
+        class="inline-block size-5"
+      />
+      <span v-else class="text-gray-400">-</span>
+    </template>
+    <template #status="{ row }">
+      <ElSwitch
+        :model-value="row.menuStatus === 1"
+        @update:model-value="
+          (v: string | number | boolean) => onStatusChange(row, v ? 1 : 0)
+        "
+      />
+    </template>
+    <template #operation="{ row }">
+      <ElButton link type="primary" size="small" @click="onEdit(row)">
+        编辑
+      </ElButton>
+      <ElTooltip
+        v-if="hasChildren(row)"
+        content="存在子菜单，无法删除"
+        placement="top"
+      >
+        <span>
+          <ElButton link type="danger" size="small" disabled> 删除 </ElButton>
+        </span>
+      </ElTooltip>
+      <ElButton v-else link type="danger" size="small" @click="onDelete(row)">
+        删除
+      </ElButton>
+    </template>
+    <template #empty>
+      <ElEmpty description="暂无菜单数据">
+        <slot name="empty-extra"></slot>
+      </ElEmpty>
+    </template>
+  </Grid>
 </template>

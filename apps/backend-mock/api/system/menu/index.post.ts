@@ -21,6 +21,10 @@ export default defineEventHandler(async (event) => {
     setResponseStatus(event, 400);
     return useResponseError('参数错误', '菜单名称和路由地址为必填');
   }
+  if (!body?.sysCode) {
+    setResponseStatus(event, 400);
+    return useResponseError('参数错误', '系统为必填');
+  }
   if (!body?.menuType || !validTypes.includes(body.menuType)) {
     setResponseStatus(event, 400);
     return useResponseError(
@@ -42,6 +46,7 @@ export default defineEventHandler(async (event) => {
     menuIcon: body.menuIcon ?? '',
     menuSort: typeof body.menuSort === 'number' ? body.menuSort : 0,
     menuStatus: body.menuStatus === 0 ? 0 : 1,
+    sysCode: body.sysCode ?? '',
   });
 
   return useResponseSuccess(item);

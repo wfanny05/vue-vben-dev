@@ -3,6 +3,7 @@ import type { MenuInfo, MenuSearchParams } from '#/types/system/menu';
 
 import { ref } from 'vue';
 
+import { Page } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
 import { ElButton } from 'element-plus';
@@ -42,7 +43,7 @@ function onEditorSuccess() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 p-4">
+  <Page auto-content-height content-class="flex flex-col gap-4">
     <SearchForm @reset="onReset" @search="onSearch" />
     <MenuTable ref="tableRef" :search-params="searchParams" @edit="onEdit">
       <template #toolbar-extra>
@@ -60,5 +61,5 @@ function onEditorSuccess() {
       :initial-data="editorInitialData"
       @success="onEditorSuccess"
     />
-  </div>
+  </Page>
 </template>

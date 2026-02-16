@@ -24,6 +24,7 @@ export interface MenuInfo {
   menuIcon: string;
   menuSort: number;
   menuStatus: MenuStatus;
+  sysCode?: string;
   children?: MenuInfo[];
 }
 
@@ -36,6 +37,7 @@ export interface MenuFormData {
   menuIcon: string;
   menuSort: number;
   menuStatus: MenuStatus;
+  sysCode: string;
 }
 
 /** 搜索参数 */

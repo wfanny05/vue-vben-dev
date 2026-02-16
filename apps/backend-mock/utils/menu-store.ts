@@ -14,6 +14,7 @@ export interface MenuItem {
   menuIcon: string;
   menuSort: number;
   menuStatus: 0 | 1;
+  sysCode?: string;
 }
 
 let menuStore: MenuItem[] = [];
@@ -36,6 +37,7 @@ function getInitialData(): MenuItem[] {
       menuIcon: 'lucide:settings',
       menuSort: 100,
       menuStatus: 1,
+      sysCode: 'sys_a',
     },
     {
       id: 'menu_2',
@@ -46,6 +48,7 @@ function getInitialData(): MenuItem[] {
       menuIcon: 'lucide:menu',
       menuSort: 1,
       menuStatus: 1,
+      sysCode: 'sys_a',
     },
     {
       id: 'menu_2_1',
@@ -56,6 +59,7 @@ function getInitialData(): MenuItem[] {
       menuIcon: 'lucide:menu',
       menuSort: 1,
       menuStatus: 1,
+      sysCode: 'sys_a',
     },
     {
       id: 'menu_2_2',
@@ -66,6 +70,7 @@ function getInitialData(): MenuItem[] {
       menuIcon: 'lucide:menu',
       menuSort: 1,
       menuStatus: 1,
+      sysCode: 'sys_a',
     },
     {
       id: 'menu_3',
@@ -76,6 +81,7 @@ function getInitialData(): MenuItem[] {
       menuIcon: 'lucide:users',
       menuSort: 2,
       menuStatus: 1,
+      sysCode: 'sys_a',
     },
   ];
 }
