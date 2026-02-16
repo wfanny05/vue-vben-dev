@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MenuInfo, MenuSearchParams } from '#/types/system/menu';
 
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
@@ -40,6 +40,8 @@ function onEdit(row: MenuInfo) {
 function onEditorSuccess() {
   tableRef.value?.query();
 }
+
+const sysCode = computed(() => tableRef.value?.getSysCode());
 </script>
 
 <template>
@@ -59,6 +61,7 @@ function onEditorSuccess() {
     <MenuEditor
       v-model:visible="editorVisible"
       :initial-data="editorInitialData"
+      :sys-code="sysCode"
       @success="onEditorSuccess"
     />
   </Page>

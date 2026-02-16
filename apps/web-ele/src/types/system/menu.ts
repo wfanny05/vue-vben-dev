@@ -46,4 +46,6 @@ export interface MenuSearchParams {
   routePath?: string;
   /** 全部 / 1 启用 / 0 禁用 */
   menuStatus?: '' | MenuStatus;
+  /** 系统编码，用于按 sysCode 过滤菜单 */
+  sysCode?: string;
 }

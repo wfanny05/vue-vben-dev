@@ -34,9 +34,10 @@ const props = withDefaults(
   defineProps<{
     /** 编辑时的初始数据；为空表示新增 */
     initialData?: MenuInfo | null;
+    sysCode?: string;
     visible: boolean;
   }>(),
-  { initialData: null },
+  { initialData: null, sysCode: '' },
 );
 
 const emit = defineEmits<{
@@ -136,7 +137,7 @@ watch(
             menuIcon: '',
             menuSort: 0,
             menuStatus: 1,
-            sysCode: '',
+            sysCode: props.sysCode,
           };
     }
   },
@@ -148,9 +149,11 @@ function close() {
 
 async function onSubmit() {
   await formRef.value?.validate();
+  const menuData = { ...form.value };
+  menuData.parentId = menuData.parentId === '' ? null : menuData.parentId;
   await (isEdit.value && props.initialData?.id
-    ? updateMenuApi(props.initialData.id, form.value)
-    : createMenuApi(form.value));
+    ? updateMenuApi(props.initialData.id, menuData)
+    : createMenuApi(menuData));
   close();
   emit('success');
 }
