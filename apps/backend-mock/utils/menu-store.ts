@@ -20,6 +20,7 @@ let menuStore: MenuItem[] = [];
 let idCounter = 1;
 
 function nextId() {
+  idCounter = menuStore.length;
   return `menu_${idCounter++}`;
 }
 

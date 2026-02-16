@@ -97,6 +97,7 @@ const gridOptions = computed<VxeTableGridOptions<MenuInfo>['gridOptions']>(
       parentField: 'parentId',
       rowField: 'id',
       transform: false,
+      expandAll: true,
     },
   }),
 );
@@ -143,6 +144,7 @@ function hasChildren(row: MenuInfo): boolean {
 
 function doQuery() {
   gridApi.query();
+  gridApi.grid?.setAllTreeExpand(true);
 }
 
 defineExpose({ query: doQuery });
@@ -168,7 +170,9 @@ defineExpose({ query: doQuery });
       <template #status="{ row }">
         <ElSwitch
           :model-value="row.menuStatus === 1"
-          @update:model-value="(v: boolean) => onStatusChange(row, v ? 1 : 0)"
+          @update:model-value="
+            (v: string | number | boolean) => onStatusChange(row, v ? 1 : 0)
+          "
         />
       </template>
       <template #operation="{ row }">

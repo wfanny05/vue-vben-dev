@@ -72,30 +72,31 @@ const rules: FormRules = {
 
 /** 树节点：用于 el-tree-select */
 interface TreeNode {
-  label: string;
-  value: null | string;
+  name: string;
+  id: null | string;
   children?: TreeNode[];
 }
 
 /** 父菜单树：一级菜单（根） + 已有菜单树 */
 const parentTreeOptions = ref<TreeNode[]>([]);
 
-function menuToTreeNode(item: MenuInfo): TreeNode {
-  return {
-    label: item.name,
-    value: item.id,
-    children: item.children?.length
-      ? item.children.map((child) => menuToTreeNode(child))
-      : undefined,
-  };
-}
+// function menuToTreeNode(item: MenuInfo): TreeNode {
+//   return {
+//     label: item.name,
+//     value: item.id,
+//     children: item.children?.length
+//       ? item.children.map((child) => menuToTreeNode(child))
+//       : undefined,
+//   };
+// }
 
 async function loadParentOptions() {
   const list = await getMenuListApi();
-  const tree: TreeNode[] = [
-    { label: '一级菜单', value: null },
-    ...(list ?? []).map((item) => menuToTreeNode(item)),
-  ];
+  // const tree: TreeNode[] = [
+  //   { label: '一级菜单', value: '' },
+  //   ...(list ?? []).map((item) => menuToTreeNode(item)),
+  // ];
+  const tree: TreeNode[] = [{ name: '一级菜单', id: '' }, ...(list ?? [])];
   parentTreeOptions.value = tree;
 }
 
@@ -157,8 +158,8 @@ async function onSubmit() {
           placeholder="请选择父菜单"
           clearable
           class="w-full"
-          node-key="value"
-          :props="{ label: 'label' }"
+          node-key="id"
+          :props="{ label: 'name' }"
           check-strictly
           default-expand-all
         />
@@ -180,7 +181,11 @@ async function onSubmit() {
       <ElFormItem label="菜单名称" prop="name">
         <ElInput v-model="form.name" placeholder="请输入菜单名称" />
       </ElFormItem>
-      <ElFormItem label="路由地址" prop="routePath">
+      <ElFormItem
+        v-if="form.menuType !== 'button'"
+        label="路由地址"
+        prop="routePath"
+      >
         <ElInput v-model="form.routePath" placeholder="请输入路由地址" />
       </ElFormItem>
       <ElFormItem label="图标" prop="menuIcon">
