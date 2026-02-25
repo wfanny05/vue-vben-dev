@@ -45,17 +45,22 @@ const sysCode = computed(() => tableRef.value?.getSysCode());
 </script>
 
 <template>
+  <!-- style="background-color: hsl(var(--table-cell-button-bg-1))" -->
   <Page auto-content-height content-class="flex flex-col gap-4">
     <SearchForm @reset="onReset" @search="onSearch" />
     <MenuTable ref="tableRef" :search-params="searchParams" @edit="onEdit">
       <template #toolbar-extra>
-        <ElButton type="primary" @click="onAdd">
+        <ElButton
+          type="primary"
+          @click="onAdd"
+          class="bg-[--table-cell-button-bg-1]"
+        >
           <Plus class="mr-1 size-4" />
           新增菜单
         </ElButton>
       </template>
       <template #empty-extra>
-        <ElButton type="primary" @click="onAdd">新增菜单</ElButton>
+        <ElButton type="primary" @click="onAdd"> 新增菜单 </ElButton>
       </template>
     </MenuTable>
     <MenuEditor
@@ -66,3 +71,5 @@ const sysCode = computed(() => tableRef.value?.getSysCode());
     />
   </Page>
 </template>
+
+<style scoped></style>

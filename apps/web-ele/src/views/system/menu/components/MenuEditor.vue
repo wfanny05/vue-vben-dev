@@ -8,20 +8,19 @@ import { computed, ref, watch } from 'vue';
 
 import { globalShareState } from '@vben/common-ui';
 
-import {
-  ElButton,
-  ElDialog,
-  ElForm,
-  ElFormItem,
-  ElInput,
-  ElInputNumber,
-  ElOption,
-  ElRadio,
-  ElRadioGroup,
-  ElSelect,
-  ElTreeSelect,
-} from 'element-plus';
-
+// import {
+//   ElButton,
+//   ElDialog,
+//   ElForm,
+//   ElFormItem,
+//   ElInput,
+//   ElInputNumber,
+//   ElOption,
+//   ElRadio,
+//   ElRadioGroup,
+//   ElSelect,
+//   ElTreeSelect,
+// } from 'element-plus';
 import { getDictListApi } from '#/api/system/dict';
 import {
   createMenuApi,
@@ -167,6 +166,7 @@ async function onSubmit() {
     destroy-on-close
     @update:model-value="emit('update:visible', $event)"
   >
+    <div id="menu-editor__icon-picker-container"></div>
     <ElForm ref="formRef" :model="form" :rules="rules" label-width="90px">
       <ElFormItem label="父菜单" prop="parentId">
         <ElTreeSelect
@@ -221,16 +221,13 @@ async function onSubmit() {
         <ElInput v-model="form.routePath" placeholder="请输入路由地址" />
       </ElFormItem>
       <ElFormItem label="图标" prop="menuIcon">
-        <div class="w-full">
-          <div id="menu-editor__icon-picker-container"></div>
-          <IconPicker
-            v-model="form.menuIcon"
-            placeholder="请选择图标"
-            class="w-full"
-            append-to="#menu-editor__icon-picker-container"
-            prefix="ep"
-          />
-        </div>
+        <IconPicker
+          v-model="form.menuIcon"
+          placeholder="请选择图标"
+          class="w-full"
+          append-to="#menu-editor__icon-picker-container"
+          prefix="ep"
+        />
       </ElFormItem>
       <ElFormItem label="排序值" prop="menuSort">
         <ElInputNumber

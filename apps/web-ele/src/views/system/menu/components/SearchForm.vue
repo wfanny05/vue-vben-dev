@@ -1,16 +1,9 @@
 <script lang="ts" setup>
+import type { ElForm } from 'element-plus';
+
 import type { MenuSearchParams } from '#/types/system/menu';
 
 import { reactive, ref } from 'vue';
-
-import {
-  ElButton,
-  ElForm,
-  ElFormItem,
-  ElInput,
-  ElOption,
-  ElSelect,
-} from 'element-plus';
 
 const emit = defineEmits<{
   reset: [];

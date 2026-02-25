@@ -1,5 +1,4 @@
 {
-  "tailwindCSS.experimental.configFile": "internal/tailwind-config/src/index.ts",
   // workbench
   "workbench.list.smoothScrolling": true,
   "workbench.startupEditor": "newUntitledFile",
@@ -114,6 +113,7 @@
   },
 
   "typescript.tsserver.exclude": ["**/node_modules", "**/dist", "**/.turbo"],
+  "typescript.tsdk": "node_modules/typescript/lib",
 
   // search
   "search.searchEditor.singleClickBehaviour": "peekDefinition",
@@ -187,6 +187,7 @@
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
   ],
+  "tailwindCSS.experimental.configFile": "internal/tailwind-config/src/index.ts",
 
   "github.copilot.enable": {
     "*": true,
@@ -226,6 +227,5 @@
   "commentTranslate.hover.enabled": false,
   "commentTranslate.multiLineMerge": true,
   "vue.server.hybridMode": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
   "oxc.enable": false
 }
