@@ -44,6 +44,8 @@
     "dayjs": "catalog:",
     "element-plus": "catalog:",
     "pinia": "catalog:",
+    "unplugin-element-plus": "catalog:",
+    "unplugin-vue-components": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"
   },

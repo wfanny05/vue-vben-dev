@@ -3,6 +3,8 @@ import type { VbenViteConfig } from '@vben/vite-config';
 import { defineConfig } from '@vben/vite-config';
 
 import ElementPlus from 'unplugin-element-plus/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
 
 const config: VbenViteConfig = defineConfig(async () => {
   return {
@@ -11,6 +13,11 @@ const config: VbenViteConfig = defineConfig(async () => {
       plugins: [
         ElementPlus({
           format: 'esm',
+          useSource: true,
+        }),
+        Components({
+          resolvers: [ElementPlusResolver()],
+          dts: 'types/components.d.ts',
         }),
       ],
       server: {

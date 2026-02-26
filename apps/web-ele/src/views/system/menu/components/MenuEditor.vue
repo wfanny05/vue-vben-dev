@@ -8,19 +8,6 @@ import { computed, ref, watch } from 'vue';
 
 import { globalShareState } from '@vben/common-ui';
 
-// import {
-//   ElButton,
-//   ElDialog,
-//   ElForm,
-//   ElFormItem,
-//   ElInput,
-//   ElInputNumber,
-//   ElOption,
-//   ElRadio,
-//   ElRadioGroup,
-//   ElSelect,
-//   ElTreeSelect,
-// } from 'element-plus';
 import { getDictListApi } from '#/api/system/dict';
 import {
   createMenuApi,
@@ -50,9 +37,9 @@ const isEdit = computed(() => !!props.initialData?.id);
 
 const dialogTitle = computed(() => (isEdit.value ? '编辑菜单' : '新增菜单'));
 
-const menuTypeOptions = Object.entries(MenuTypeEnum).map(([value, label]) => ({
-  value: value as MenuFormData['menuType'],
-  label,
+const menuTypeOptions = Object.entries(MenuTypeEnum).map(([key, value]) => ({
+  label: value,
+  value: key as MenuFormData['menuType'],
 }));
 
 const formRef = ref<FormInstance>();
@@ -70,7 +57,20 @@ const form = ref<MenuFormData>({
 const rules: FormRules = {
   name: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }],
   menuType: [{ required: true, message: '请选择菜单类型', trigger: 'change' }],
-  routePath: [{ required: true, message: '请输入路由地址', trigger: 'blur' }],
+  routePath: [
+    {
+      required: true,
+      message: '请输入路由地址',
+      trigger: 'blur',
+      validator: (_rule, value, callback) => {
+        if (form.value.menuType !== 'button' && !value) {
+          callback(new Error('请输入路由地址'));
+        } else {
+          callback();
+        }
+      },
+    },
+  ],
   sysCode: [{ required: true, message: '请选择系统', trigger: 'change' }],
 };
 
@@ -97,13 +97,22 @@ const parentTreeOptions = ref<TreeNode[]>([]);
 //   };
 // }
 
+function menuToTreeNode(item: MenuInfo): TreeNode {
+  return {
+    name: item.name,
+    id: item.id,
+    children: item.children?.length
+      ? item.children.map((child) => menuToTreeNode(child))
+      : undefined,
+  };
+}
+
 async function loadParentOptions() {
   const list = await getMenuListApi();
-  // const tree: TreeNode[] = [
-  //   { label: '一级菜单', value: '' },
-  //   ...(list ?? []).map((item) => menuToTreeNode(item)),
-  // ];
-  const tree: TreeNode[] = [{ name: '一级菜单', id: '' }, ...(list ?? [])];
+  const tree: TreeNode[] = [
+    { name: '一级菜单', id: '' },
+    ...(list ?? []).map((item) => menuToTreeNode(item)),
+  ];
   parentTreeOptions.value = tree;
 }
 
@@ -122,7 +131,7 @@ watch(
             parentId: props.initialData.parentId ?? null,
             name: props.initialData.name,
             menuType: props.initialData.menuType ?? 'menu',
-            routePath: props.initialData.routePath,
+            routePath: props.initialData.routePath ?? '',
             menuIcon: props.initialData.menuIcon ?? '',
             menuSort: props.initialData.menuSort ?? 0,
             menuStatus: props.initialData.menuStatus ?? 1,

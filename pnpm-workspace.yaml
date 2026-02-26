@@ -177,6 +177,7 @@ catalog:
   typescript: ^5.9.3
   unbuild: ^3.6.1
   unplugin-element-plus: ^0.11.2
+  unplugin-vue-components: ^31.0.0
   vee-validate: ^4.15.1
   vite: ^7.3.1
   vite-plugin-compression: ^0.5.1

@@ -190,9 +190,10 @@
   "tailwindCSS.experimental.configFile": "internal/tailwind-config/src/index.ts",
 
   "github.copilot.enable": {
-    "*": true,
-    "markdown": true,
+    "*": false,
     "plaintext": false,
+    "markdown": false,
+    "scminput": false,
     "yaml": false
   },
 

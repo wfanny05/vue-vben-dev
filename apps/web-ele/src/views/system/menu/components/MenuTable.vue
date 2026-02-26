@@ -7,16 +7,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 
 import { IconifyIcon } from '@vben/icons';
 
-import {
-  ElButton,
-  ElEmpty,
-  ElMessage,
-  ElMessageBox,
-  ElSwitch,
-  ElTabPane,
-  ElTabs,
-  ElTooltip,
-} from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { getDictListApi } from '#/api/system/dict';
@@ -217,7 +208,7 @@ defineExpose({ query: doQuery, getSysCode });
         <span v-else class="text-gray-400">-</span>
       </template>
       <template #status="{ row }">
-        <ElSwitch
+        <elSwitch
           :model-value="row.menuStatus === 1"
           @update:model-value="
             (v: string | number | boolean) => onStatusChange(row, v ? 1 : 0)

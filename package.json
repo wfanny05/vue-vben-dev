@@ -92,6 +92,7 @@
     "turbo": "catalog:",
     "typescript": "catalog:",
     "unbuild": "catalog:",
+    "unplugin-vue-components": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
