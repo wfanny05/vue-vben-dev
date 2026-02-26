@@ -529,6 +529,10 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      vue3-pdf-app:
+        specifier: ^1.0.3
+        version: 1.0.3(vue@3.5.27(typescript@5.9.3))
     devDependencies:
       '@changesets/changelog-github':
         specifier: 'catalog:'
@@ -649,6 +653,19 @@ importers:
         specifier: 'catalog:'
         version: 1.15.5
 
+  apps/test-lib:
+    dependencies:
+      vite:
+        specifier: ^7.3.1
+        version: 7.3.1(@types/node@25.2.2)(jiti@2.6.1)(less@4.5.1)(sass@1.97.3)(terser@5.46.0)(yaml@2.8.2)
+      vue3-pdf-app:
+        specifier: ^1.0.3
+        version: 1.0.3(vue@3.5.27(typescript@5.9.3))
+    devDependencies:
+      '@vitejs/plugin-vue':
+        specifier: 'catalog:'
+        version: 6.0.4(vite@7.3.1(@types/node@25.2.2)(jiti@2.6.1)(less@4.5.1)(sass@1.97.3)(terser@5.46.0)(yaml@2.8.2))(vue@3.5.27(typescript@5.9.3))
+
   apps/web-ele:
     dependencies:
       '@vben/access':
@@ -705,16 +722,18 @@ importers:
       pinia:
         specifier: ^3.0.4
         version: 3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
+      unplugin-element-plus:
+        specifier: 'catalog:'
+        version: 0.11.2(magicast@0.5.2)
+      unplugin-vue-components:
+        specifier: 'catalog:'
+        version: 31.0.0(@nuxt/kit@4.3.1(magicast@0.5.2))(vue@3.5.27(typescript@5.9.3))
       vue:
         specifier: ^3.5.27
         version: 3.5.27(typescript@5.9.3)
       vue-router:
         specifier: 'catalog:'
         version: 4.6.4(vue@3.5.27(typescript@5.9.3))
-    devDependencies:
-      unplugin-element-plus:
-        specifier: 'catalog:'
-        version: 0.11.2(magicast@0.5.2)
 
   docs:
     dependencies:
@@ -10330,6 +10349,11 @@ packages:
   vue-types@3.0.2:
     resolution: {integrity: sha512-IwUC0Aq2zwaXqy74h4WCvFCUtoV0iSWr0snWnE9TnU18S66GAQyqQbRf2qfJtUuiFsBf6qp0MEwdonlwznlcrw==}
     engines: {node: '>=10.15.0'}
+    peerDependencies:
+      vue: ^3.5.27
+
+  vue3-pdf-app@1.0.3:
+    resolution: {integrity: sha512-qegWTIF4wYKiocZ3KreB70wRXhqSdXWbdERDyyKzT7d5PbjKbS9tD6vaKkCqh3PzTM84NyKPYrQ3iuwJb60YPQ==}
     peerDependencies:
       vue: ^3.5.27
 
@@ -20154,6 +20178,10 @@ snapshots:
   vue-types@3.0.2(vue@3.5.27(typescript@5.9.3)):
     dependencies:
       is-plain-object: 3.0.1
+      vue: 3.5.27(typescript@5.9.3)
+
+  vue3-pdf-app@1.0.3(vue@3.5.27(typescript@5.9.3)):
+    dependencies:
       vue: 3.5.27(typescript@5.9.3)
 
   vue@3.5.27(typescript@5.9.3):

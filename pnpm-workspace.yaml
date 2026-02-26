@@ -196,6 +196,7 @@ catalog:
   vue-router: ^4.6.4
   vue-tippy: ^6.7.1
   vue-tsc: ^3.2.4
+  vue3-pdf-app: ^1.0.3
   vxe-pc-ui: ^4.12.16
   vxe-table: ^4.17.46
   watermark-js-plus: ^1.6.3

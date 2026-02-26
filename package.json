@@ -96,7 +96,8 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
-    "vue-tsc": "catalog:"
+    "vue-tsc": "catalog:",
+    "vue3-pdf-app": "catalog:"
   },
   "engines": {
     "node": ">=20.19.0",

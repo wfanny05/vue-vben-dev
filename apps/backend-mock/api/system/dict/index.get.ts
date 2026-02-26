@@ -16,9 +16,11 @@ export default eventHandler(async (event) => {
   }
 
   const query = getQuery(event);
-  const code = Array.isArray(query.code) ? query.code[0] : query.code;
+  const dictCode = Array.isArray(query.dictCode)
+    ? query.dictCode[0]
+    : query.dictCode;
 
-  if (code === 'sysCode') {
+  if (dictCode === 'sysCode') {
     return useResponseSuccess(SYS_CODE_OPTIONS);
   }
 

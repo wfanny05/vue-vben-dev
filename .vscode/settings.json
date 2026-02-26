@@ -228,5 +228,6 @@
   "commentTranslate.hover.enabled": false,
   "commentTranslate.multiLineMerge": true,
   "vue.server.hybridMode": true,
-  "oxc.enable": false
+  "oxc.enable": false,
+  "Codegeex.RepoIndex": true
 }
