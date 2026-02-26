@@ -1,8 +1,8 @@
-import type { MenuItem } from '~/utils/menu-store';
+import type { MenuItem } from '~/utils/system/menu-store';
 
 import { eventHandler, getQuery } from 'h3';
 import { verifyAccessToken } from '~/utils/jwt-utils';
-import { buildMenuTree, getMenuStore } from '~/utils/menu-store';
+import { buildMenuTree, getMenuStore } from '~/utils/system/menu-store';
 import { unAuthorizedResponse, useResponseSuccess } from '~/utils/response';
 
 export default eventHandler(async (event) => {

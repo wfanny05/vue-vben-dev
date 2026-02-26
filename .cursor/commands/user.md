@@ -1,4 +1,4 @@
-# 类型声明
+# TS 类型声明
 
 ```ts
 interface RoleItem {
@@ -32,9 +32,19 @@ interface UserItem {
 
 ## 重要背景
 
+- 请严格遵循 Vben Admin 目录规范
 - 通过 Nitro 模拟接口
+- 模拟数据的内存存储模块请参考：`apps/backend-mock/utils/system/menu-store.ts`
+
+## 字典接口
+
+- 路由文件路径：`apps/backend-mock/routes/system/dict`
+- 内存存储路径：`apps/backend-mock/utils/system/dict-store.ts`
 
 ## 用户接口
+
+- 路由文件路径：`apps/backend-mock/routes/system/users`
+- 内存存储路径：`apps/backend-mock/utils/system/users-store.ts`
 
 - 用户列表接口 get `/users`，返回用户列表，参数有：
   - params
@@ -63,12 +73,19 @@ interface UserItem {
 
 # 前端（ apps/web-ele ）
 
-重要别急
+## 重要背景
 
+- 请严格遵循 Vben Admin 目录规范
 - 技术栈：Vue3 + Element Plus + TypeScript + Pinia
+- 已使用 unplugin-element-plus/vite 插件按需导入 element-plus 组件, 禁止使用时再次导入
+- 组件通信优先使用 Props/Emits，跨组件状态使用 Pinia（避免全局变量）
 
 ## 用户管理页面
 
+### 入口页面（index.vue）
+
+- 整合 UserEditor 组件
+- 处理组件间通信（编辑触发）
 - 使用内置的 `vex-table` 组件渲染：用户搜索表单、用户表格
   - 搜索字段有：
     - userCode（Input）
@@ -92,7 +109,10 @@ interface UserItem {
     - 操作（编辑、启用/禁用）, "启用/禁用" 需要二次确认
   - 针对 companyPosition, 先查询字典接口 `/dict?dictCode=COMPANY_POSITION`, 然后根据返回的字典项，渲染 companyPosition 字段
 
-- 使用 ElDialog、ElForm 等组件开发用户编辑组件 UserEditor，其中表单属性有：
+### UserEditor.vue（编辑弹窗）
+
+- 容器：ElDialog
+- 表单：ElForm, 表单属性有：
   - userCode（ElInput, Disabled）
   - userName（ElInput, Disabled）
   - gender（ElRadio, Disabled）
@@ -100,3 +120,7 @@ interface UserItem {
   - email（ElInput, Disabled）
   - userStatus（ElSelect, required）
   - companyPosition（ElSelect,required）, ElSelect选项从 `/dict?dictCode=COMPANY_POSITION` 获取
+- 交互：
+  - 通过 Props 传递用户数据
+  - 表单校验：使用 ElForm 内置校验规则（必填、格式等）
+  - 确定（表单提交）/取消：使用 Elbutton，提交后调用接口并关闭弹窗，通知父组件刷新表格

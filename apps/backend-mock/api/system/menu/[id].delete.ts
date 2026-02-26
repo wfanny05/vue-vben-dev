@@ -1,6 +1,6 @@
 import { defineEventHandler, getRouterParam, setResponseStatus } from 'h3';
 import { verifyAccessToken } from '~/utils/jwt-utils';
-import { hasChildren, removeMenu } from '~/utils/menu-store';
+import { hasChildren, removeMenu } from '~/utils/system/menu-store';
 import {
   unAuthorizedResponse,
   useResponseError,

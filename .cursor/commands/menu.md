@@ -107,6 +107,6 @@ src/views/system/menu/ ├── index.vue # 页面入口（整合所有子组�
 1. 完整的目录结构代码：包含 index.vue、components 下所有子组件
 2. 类型定义代码：`src/types/system/menu.ts`
 3. 接口请求代码：`src/api/system/menu.ts`
-4. Nitro 模拟接口代码：apps/backend-mock/routes/system/menu.ts
+4. Nitro 模拟接口代码：`apps/backend-mock/routes/system/menu.ts`
 5. 接入说明：组件注册方式、接口联调步骤、Element Plus 按需引入配置
 6. 关键逻辑说明：vex-table 树形配置、IconPicker 与 el-form 结合使用、组件通信逻辑

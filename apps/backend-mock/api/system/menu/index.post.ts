@@ -1,8 +1,8 @@
-import type { MenuItem } from '~/utils/menu-store';
+import type { MenuItem } from '~/utils/system/menu-store';
 
 import { defineEventHandler, readBody, setResponseStatus } from 'h3';
 import { verifyAccessToken } from '~/utils/jwt-utils';
-import { addMenu, isRoutePathExists } from '~/utils/menu-store';
+import { addMenu, isRoutePathExists } from '~/utils/system/menu-store';
 import {
   unAuthorizedResponse,
   useResponseError,

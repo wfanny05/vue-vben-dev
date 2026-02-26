@@ -1,6 +1,11 @@
-import { defineEventHandler, getRouterParam, readBody, setResponseStatus } from 'h3';
+import {
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+  setResponseStatus,
+} from 'h3';
 import { verifyAccessToken } from '~/utils/jwt-utils';
-import { findMenuById, updateMenu } from '~/utils/menu-store';
+import { findMenuById, updateMenu } from '~/utils/system/menu-store';
 import {
   unAuthorizedResponse,
   useResponseError,

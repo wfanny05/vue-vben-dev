@@ -1,4 +1,4 @@
-import type { MenuItem } from '~/utils/menu-store';
+import type { MenuItem } from '~/utils/system/menu-store';
 
 import {
   defineEventHandler,
@@ -11,7 +11,7 @@ import {
   findMenuById,
   isRoutePathExists,
   updateMenu,
-} from '~/utils/menu-store';
+} from '~/utils/system/menu-store';
 import {
   unAuthorizedResponse,
   useResponseError,
