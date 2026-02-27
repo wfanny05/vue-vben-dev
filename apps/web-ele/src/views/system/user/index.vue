@@ -24,7 +24,11 @@ function onEditorSuccess() {
 </script>
 
 <template>
-  <Page auto-content-height content-class="flex flex-col gap-4">
+  <Page
+    auto-content-height
+    content-class="flex flex-col gap-4"
+    title="用户管理"
+  >
     <UserTable ref="tableRef" :search-params="searchParams" @edit="onEdit">
       <!-- <template #toolbar-extra>
         <ElButton type="primary" class="bg-[--table-cell-button-bg-1]">

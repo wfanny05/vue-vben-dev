@@ -127,7 +127,7 @@ const gridOptions = computed<VxeTableGridOptions<UserInfo>>(() => ({
     {
       field: 'operation',
       title: '操作',
-      width: 160,
+      width: 240,
       fixed: 'right',
       slots: { default: 'operation' },
     },
@@ -256,17 +256,19 @@ defineExpose({ query: doQuery });
         <ElTag v-else type="info">未知</ElTag>
       </template>
       <template #operation="{ row }">
-        <ElButton link type="primary" size="small" @click="onEdit(row)">
+        <TypeButton type="primary" size="small" @click="onEdit(row)">
           编辑
-        </ElButton>
-        <ElButton
-          link
+        </TypeButton>
+        <TypeButton
           :type="row.userStatus === 'ENABLE' ? 'danger' : 'success'"
           size="small"
           @click="onToggleStatus(row)"
         >
           {{ row.userStatus === 'ENABLE' ? '禁用' : '启用' }}
-        </ElButton>
+        </TypeButton>
+        <TypeButton type="assist" size="small" @click="onEdit(row)">
+          角色管理
+        </TypeButton>
       </template>
       <template #empty>
         <ElEmpty description="暂无用户数据">
