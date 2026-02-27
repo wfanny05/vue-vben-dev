@@ -11,5 +11,5 @@ export interface DictItem {
  * @param params.dictCode 字典编码，如 'sysCode'
  */
 export async function getDictListApi(params: { dictCode: string }) {
-  return requestClient.get<{ data: DictItem[] }>('/system/dict', { params });
+  return requestClient.get<{ data: DictItem[] }>('/web-ele/dict', { params });
 }

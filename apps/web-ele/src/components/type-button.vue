@@ -26,7 +26,7 @@ const buttonColor = computed(() => {
     success: '#0bd092',
     warning: '#efbd48',
     danger: '#bb1b1b',
-    assist: '#7166f0',
+    assist: '#626aef',
   };
 
   return `${typeStyles[props.type]}`;

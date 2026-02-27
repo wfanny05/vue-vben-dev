@@ -28,10 +28,14 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    ElTransfer: typeof import('element-plus/es')['ElTransfer']
     ElTreeSelect: typeof import('element-plus/es')['ElTreeSelect']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TypeButton: typeof import('./../src/components/type-button.vue')['default']
+  }
+  export interface GlobalDirectives {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }
 
@@ -53,6 +57,7 @@ declare global {
   const ElTabs: typeof import('element-plus/es')['ElTabs']
   const ElTag: typeof import('element-plus/es')['ElTag']
   const ElTooltip: typeof import('element-plus/es')['ElTooltip']
+  const ElTransfer: typeof import('element-plus/es')['ElTransfer']
   const ElTreeSelect: typeof import('element-plus/es')['ElTreeSelect']
   const RouterLink: typeof import('vue-router')['RouterLink']
   const RouterView: typeof import('vue-router')['RouterView']

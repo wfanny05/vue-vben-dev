@@ -5,6 +5,7 @@ import { ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
+import RoleManager from './components/RoleManager.vue';
 import UserEditor from './components/UserEditor.vue';
 import UserTable from './components/UserTable.vue';
 
@@ -12,6 +13,8 @@ const searchParams = ref<UserSearchParams>({});
 const tableRef = ref<InstanceType<typeof UserTable>>();
 const editorVisible = ref(false);
 const editorInitialData = ref<null | UserInfo>(null);
+const roleManagerVisible = ref(false);
+const roleManagerUser = ref<null | UserInfo>(null);
 
 function onEdit(row: UserInfo) {
   editorInitialData.value = row;
@@ -19,6 +22,15 @@ function onEdit(row: UserInfo) {
 }
 
 function onEditorSuccess() {
+  tableRef.value?.query();
+}
+
+function onManageRoles(row: UserInfo) {
+  roleManagerUser.value = row;
+  roleManagerVisible.value = true;
+}
+
+function onRoleManagerSuccess() {
   tableRef.value?.query();
 }
 </script>
@@ -29,7 +41,12 @@ function onEditorSuccess() {
     content-class="flex flex-col gap-4"
     title="用户管理"
   >
-    <UserTable ref="tableRef" :search-params="searchParams" @edit="onEdit">
+    <UserTable
+      ref="tableRef"
+      :search-params="searchParams"
+      @edit="onEdit"
+      @manage-roles="onManageRoles"
+    >
       <!-- <template #toolbar-extra>
         <ElButton type="primary" class="bg-[--table-cell-button-bg-1]">
           <Plus class="mr-1 size-4" />
@@ -44,6 +61,11 @@ function onEditorSuccess() {
       v-model:visible="editorVisible"
       :initial-data="editorInitialData"
       @success="onEditorSuccess"
+    />
+    <RoleManager
+      v-model="roleManagerVisible"
+      :user="roleManagerUser"
+      @refresh="onRoleManagerSuccess"
     />
   </Page>
 </template>

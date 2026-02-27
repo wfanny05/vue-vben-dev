@@ -18,6 +18,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   edit: [row: UserInfo];
+  manageRoles: [row: UserInfo];
   refresh: [];
 }>();
 
@@ -127,7 +128,7 @@ const gridOptions = computed<VxeTableGridOptions<UserInfo>>(() => ({
     {
       field: 'operation',
       title: '操作',
-      width: 240,
+      width: 320,
       fixed: 'right',
       slots: { default: 'operation' },
     },
@@ -210,6 +211,10 @@ async function onToggleStatus(row: UserInfo) {
   }
 }
 
+function onManageRoles(row: UserInfo) {
+  emit('manageRoles', row);
+}
+
 async function doQuery() {
   await gridApi.query();
 }
@@ -235,12 +240,12 @@ defineExpose({ query: doQuery });
       <template #companyPosition="{ row }">
         <span>{{
           companyPositionOptions.find(
-            (opt) => opt.value === row.companyPosition,
-          )?.label || row.companyPosition
+            (opt) => opt.dictItemCode === row.companyPosition,
+          )?.dictItemName || row.companyPosition
         }}</span>
       </template>
       <template #employmentStatus="{ row }">
-        <ElTag v-if="row.employmentStatus === 'ON_JOB'" type="success">
+        <ElTag v-if="row.employmentStatus === 'ON_JOB'" type="primary">
           在职
         </ElTag>
         <ElTag v-else-if="row.employmentStatus === 'OFF_JOB'" type="danger">
@@ -259,15 +264,15 @@ defineExpose({ query: doQuery });
         <TypeButton type="primary" size="small" @click="onEdit(row)">
           编辑
         </TypeButton>
+        <TypeButton type="assist" size="small" @click="onManageRoles(row)">
+          角色管理
+        </TypeButton>
         <TypeButton
           :type="row.userStatus === 'ENABLE' ? 'danger' : 'success'"
           size="small"
           @click="onToggleStatus(row)"
         >
           {{ row.userStatus === 'ENABLE' ? '禁用' : '启用' }}
-        </TypeButton>
-        <TypeButton type="assist" size="small" @click="onEdit(row)">
-          角色管理
         </TypeButton>
       </template>
       <template #empty>

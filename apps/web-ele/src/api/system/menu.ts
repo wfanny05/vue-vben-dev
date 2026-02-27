@@ -1,8 +1,13 @@
-import type { MenuFormData, MenuInfo, MenuSearchParams, MenuStatus } from '#/types/system/menu';
+import type {
+  MenuFormData,
+  MenuInfo,
+  MenuSearchParams,
+  MenuStatus,
+} from '#/types/system/menu';
 
 import { requestClient } from '#/api/request';
 
-const BASE = '/system/menu';
+const BASE = '/web-ele/menu';
 
 /**
  * 获取菜单列表（支持搜索参数，返回树形数据）

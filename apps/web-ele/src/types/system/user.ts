@@ -2,6 +2,9 @@
  * 用户管理相关类型定义
  */
 
+/** 角色状态 */
+export type RoleStatus = 'DISABLE' | 'ENABLE' | 'UNKNOWN';
+
 /** 角色项 */
 export interface RoleItem {
   id: number;
@@ -9,6 +12,7 @@ export interface RoleItem {
   roleName: string;
   appCode: string;
   sysCode: string;
+  roleStatus: RoleStatus;
 }
 
 /** 用户状态 */
