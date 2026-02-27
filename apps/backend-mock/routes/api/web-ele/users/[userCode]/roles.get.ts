@@ -1,8 +1,7 @@
 import { defineEventHandler } from 'h3';
-
-import { findUserByCode } from '~/utils/system/users-store';
+import { useResponseError, useResponseSuccess } from '~/utils/response';
 import { queryRoles } from '~/utils/system/role-store';
-import { useResponseSuccess, useResponseError } from '~/utils/response';
+import { findUserByCode } from '~/utils/system/users-store';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -21,9 +20,7 @@ export default defineEventHandler(async (event) => {
     const allRoles = queryRoles({});
 
     // 筛选出用户已绑定的角色
-    const boundRoles = allRoles.filter(role => 
-      user.roles.includes(role.roleCode)
-    );
+    const boundRoles = allRoles.filter((role) => user.roles.includes(role.id));
 
     return useResponseSuccess(boundRoles);
   } catch (error) {

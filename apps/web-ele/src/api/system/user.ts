@@ -39,11 +39,13 @@ export async function updateUserApi(
  * @param params 查询参数
  */
 export async function getBindingRoleListApi(params: {
-  roleName?: string;
   appCode?: string;
+  roleName?: string;
   sysCode?: string;
 }) {
-  return requestClient.get<RoleItem[]>('/web-ele/users/binding-role/list', { params });
+  return requestClient.get<RoleItem[]>('/web-ele/users/binding-role/list', {
+    params,
+  });
 }
 
 /**
@@ -59,9 +61,12 @@ export async function getUserRolesApi(userCode: string) {
  * @param userCode 用户编码
  * @param data 绑定数据
  */
-export async function bindUserRolesApi(userCode: string, data: {
-  addRoleIds: string[];
-  delRoleIds: string[];
-}) {
+export async function bindUserRolesApi(
+  userCode: string,
+  data: {
+    addRoleIds: string[];
+    delRoleIds: string[];
+  },
+) {
   return requestClient.post(`/web-ele/users/${userCode}/roles`, data);
 }

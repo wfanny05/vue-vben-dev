@@ -21,24 +21,25 @@ const emit = defineEmits<{
   'update:modelValue': [value: boolean];
 }>();
 
+const dialogVisible = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
+});
+
 const loading = ref(false);
 const saving = ref(false);
 const allRoles = ref<RoleItem[]>([]);
-const boundRoleCodes = ref<string[]>([]);
+const boundRoleIds = ref<number[]>([]);
 const searchQuery = ref('');
 
 // 计算属性：未绑定的角色
 const unboundRoles = computed(() => {
-  return allRoles.value.filter(
-    (role) => !boundRoleCodes.value.includes(role.roleCode),
-  );
+  return allRoles.value.filter((role) => !boundRoleIds.value.includes(role.id));
 });
 
 // 计算属性：已绑定的角色
 const boundRoles = computed(() => {
-  return allRoles.value.filter((role) =>
-    boundRoleCodes.value.includes(role.roleCode),
-  );
+  return allRoles.value.filter((role) => boundRoleIds.value.includes(role.id));
 });
 
 // 计算属性：过滤后的角色列表（用于穿梭框）
@@ -57,9 +58,9 @@ const filteredRoles = computed(() => {
 
 // 计算属性：已选中的角色（用于穿梭框）
 const selectedRoles = computed({
-  get: () => boundRoleCodes.value,
+  get: () => boundRoleIds.value,
   set: (value) => {
-    boundRoleCodes.value = value;
+    boundRoleIds.value = value;
   },
 });
 
@@ -67,6 +68,7 @@ const selectedRoles = computed({
 watch(
   () => props.modelValue,
   async (visible) => {
+    console.log('visible', visible);
     if (visible && props.user) {
       await loadRoles();
     }
@@ -85,7 +87,7 @@ async function loadRoles() {
 
     // 加载用户已绑定角色
     const boundRes = await getUserRolesApi(props.user.userCode);
-    boundRoleCodes.value = (boundRes.data || []).map((role) => role.roleCode);
+    boundRoleIds.value = (boundRes.data || []).map((role) => role.id);
   } catch {
     ElMessage.error('加载角色数据失败');
   } finally {
@@ -100,17 +102,15 @@ async function handleSave() {
   saving.value = true;
   try {
     // 计算需要添加和删除的角色
-    const currentBoundCodes = boundRoleCodes.value;
-    const originalBoundCodes =
-      (await getUserRolesApi(props.user.userCode)).data?.map(
-        (r) => r.roleCode,
-      ) || [];
+    const currentBoundIds = boundRoleIds.value;
+    const originalBoundIds =
+      (await getUserRolesApi(props.user.userCode)).data?.map((r) => r.id) || [];
 
-    const addRoleIds = currentBoundCodes.filter(
-      (code) => !originalBoundCodes.includes(code),
+    const addRoleIds = currentBoundIds.filter(
+      (id) => !originalBoundIds.includes(id),
     );
-    const delRoleIds = originalBoundCodes.filter(
-      (code) => !currentBoundCodes.includes(code),
+    const delRoleIds = originalBoundIds.filter(
+      (id) => !currentBoundIds.includes(id),
     );
 
     await bindUserRolesApi(props.user.userCode, {
@@ -135,20 +135,20 @@ function handleCancel() {
 
 // 关闭弹窗时重置数据
 function handleClosed() {
-  boundRoleCodes.value = [];
+  boundRoleIds.value = [];
   searchQuery.value = '';
 }
 </script>
 
 <template>
   <ElDialog
-    :model-value="modelValue"
+    v-model="dialogVisible"
     title="角色管理"
-    width="800px"
+    width="1000px"
     @closed="handleClosed"
   >
     <div v-loading="loading" class="role-manager">
-      <ElForm :model="{ selectedRoles }" label-width="100px">
+      <!-- <ElForm :model="{ selectedRoles }" label-width="100px">
         <ElFormItem label="用户编码">
           <span>{{ user?.userCode }}</span>
         </ElFormItem>
@@ -156,41 +156,36 @@ function handleClosed() {
           <span>{{ user?.userName }}</span>
         </ElFormItem>
         <ElFormItem label="角色绑定" required>
-          <ElTransfer
-            v-model="selectedRoles"
-            :data="filteredRoles"
-            :titles="['未绑定', '已绑定']"
-            :props="{
-              key: 'roleCode',
-              label: 'roleName',
-            }"
-            filterable
-            :filter-method="
-              (query, item) => {
-                const lowerQuery = query.toLowerCase();
-                return (
-                  item.roleName.toLowerCase().includes(lowerQuery) ||
-                  item.appCode.toLowerCase().includes(lowerQuery) ||
-                  item.sysCode.toLowerCase().includes(lowerQuery)
-                );
-              }
-            "
-            filter-placeholder="请输入角色名称、应用编码或系统编码"
-          >
-            <template #default="{ option }">
-              <div class="role-item">
-                <div class="role-name">{{ option.roleName }}</div>
-                <div class="role-tags">
-                  <ElTag size="small" type="info">{{ option.appCode }}</ElTag>
-                  <ElTag size="small" type="success">
-                    {{ option.sysCode }}
-                  </ElTag>
-                </div>
-              </div>
-            </template>
-          </ElTransfer>
+
         </ElFormItem>
-      </ElForm>
+      </ElForm> -->
+
+      <ElTransfer
+        v-model="selectedRoles"
+        :data="filteredRoles"
+        :titles="['全部角色', props?.user?.userName]"
+        :props="{
+          key: 'id',
+          label: 'roleName',
+        }"
+        filterable
+        filter-placeholder="请输入角色名称"
+        style="
+
+--el-transfer-panel-width: 400px"
+      >
+        <template #default="{ option }">
+          <div class="role-item">
+            <div class="role-name">{{ option.roleName }}</div>
+            <div class="role-tags">
+              <ElTag size="small" type="info">{{ option.appCode }}</ElTag>
+              <ElTag size="small" type="success">
+                {{ option.sysCode }}
+              </ElTag>
+            </div>
+          </div>
+        </template>
+      </ElTransfer>
     </div>
     <template #footer>
       <ElButton @click="handleCancel">取消</ElButton>

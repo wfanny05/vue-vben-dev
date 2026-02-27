@@ -1,8 +1,7 @@
 import { defineEventHandler, readBody } from 'h3';
-
+import { useResponseError, useResponseSuccess } from '~/utils/response';
+import { findRoleById } from '~/utils/system/role-store';
 import { findUserByCode, updateUser } from '~/utils/system/users-store';
-import { findRoleByCode } from '~/utils/system/role-store';
-import { useResponseSuccess, useResponseError } from '~/utils/response';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -25,23 +24,21 @@ export default defineEventHandler(async (event) => {
 
     // 删除角色
     if (delRoleIds.length > 0) {
-      currentRoles = currentRoles.filter(roleCode => 
-        !delRoleIds.includes(roleCode)
-      );
+      currentRoles = currentRoles.filter((id) => !delRoleIds.includes(id));
     }
 
     // 添加角色
     if (addRoleIds.length > 0) {
       // 验证要添加的角色是否存在
-      for (const roleCode of addRoleIds) {
-        const role = findRoleByCode(roleCode);
+      for (const id of addRoleIds) {
+        const role = findRoleById(id);
         if (!role) {
-          return useResponseError(`角色 ${roleCode} 不存在`);
+          return useResponseError(`角色 ${id} 不存在`);
         }
       }
 
       // 合并角色列表，去重
-      currentRoles = [...new Set([...currentRoles, ...addRoleIds])];
+      currentRoles = [...new Set([...addRoleIds, ...currentRoles])];
     }
 
     // 更新用户角色

@@ -29,7 +29,7 @@ function getInitialData(): UserItem[] {
       updateTime: '2024-02-01 10:00:00',
       userStatus: 'ENABLE',
       companyPosition: 'SENIOR_ENGINEER',
-      roles: ['admin', 'developer'],
+      roles: ['1', '2'],
     },
     {
       id: nextId(),
@@ -46,7 +46,7 @@ function getInitialData(): UserItem[] {
       updateTime: '2024-02-02 10:00:00',
       userStatus: 'ENABLE',
       companyPosition: 'PRODUCT_MANAGER',
-      roles: ['product_manager'],
+      roles: ['3'],
     },
     {
       id: nextId(),
@@ -63,7 +63,7 @@ function getInitialData(): UserItem[] {
       updateTime: '2024-02-03 10:00:00',
       userStatus: 'DISABLE',
       companyPosition: 'MIDDLE_ENGINEER',
-      roles: ['developer'],
+      roles: ['1'],
     },
   ];
 }

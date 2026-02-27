@@ -1,7 +1,6 @@
 import { defineEventHandler, getQuery } from 'h3';
-
+import { useResponseError, useResponseSuccess } from '~/utils/response';
 import { queryRoles } from '~/utils/system/role-store';
-import { useResponseSuccess, useResponseError } from '~/utils/response';
 
 export default defineEventHandler(async (event) => {
   try {
