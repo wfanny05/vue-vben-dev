@@ -1,7 +1,7 @@
 import { eventHandler, getQuery } from 'h3';
 import { verifyAccessToken } from '~/utils/jwt-utils';
+import { unAuthorizedResponse, useResponseSuccess2 } from '~/utils/response';
 import { queryUsers } from '~/utils/system/users-store';
-import { unAuthorizedResponse, useResponseSuccess } from '~/utils/response';
 
 export default eventHandler(async (event) => {
   const userinfo = verifyAccessToken(event);
@@ -34,5 +34,5 @@ export default eventHandler(async (event) => {
     pageNo: Number.isNaN(pageNo) ? 1 : pageNo,
   });
 
-  return useResponseSuccess(result);
+  return useResponseSuccess2(result);
 });

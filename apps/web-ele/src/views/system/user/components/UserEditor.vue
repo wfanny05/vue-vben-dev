@@ -10,20 +10,20 @@ import { getDictListApi } from '#/api/system/dict';
 import { updateUserApi } from '#/api/system/user';
 
 const props = defineProps<{
+  initialData: null | UserInfo;
   visible: boolean;
-  initialData: UserInfo | null;
 }>();
 
 const emit = defineEmits<{
-  'update:visible': [value: boolean];
   success: [];
+  'update:visible': [value: boolean];
 }>();
 
 const formData = reactive({
   userCode: '',
   userName: '',
-  gender: 'MALE' as 'MALE' | 'FEMALE' | 'UNKNOWN',
-  employmentStatus: 'ON_JOB' as 'ON_JOB' | 'OFF_JOB' | 'UNKNOWN',
+  gender: 'MALE' as 'FEMALE' | 'MALE' | 'UNKNOWN',
+  employmentStatus: 'ON_JOB' as 'OFF_JOB' | 'ON_JOB' | 'UNKNOWN',
   email: '',
   userStatus: 'ENABLE' as 'DISABLE' | 'ENABLE' | 'UNKNOWN',
   companyPosition: '',
@@ -32,7 +32,9 @@ const formData = reactive({
 const companyPositionOptions = ref<DictItem[]>([]);
 
 const formRules = {
-  userStatus: [{ required: true, message: '请选择用户状态', trigger: 'change' }],
+  userStatus: [
+    { required: true, message: '请选择用户状态', trigger: 'change' },
+  ],
   companyPosition: [
     { required: true, message: '请选择职位', trigger: 'change' },
   ],
@@ -46,8 +48,8 @@ const dialogVisible = computed({
 });
 
 async function loadCompanyPositionOptions() {
-  const list = await getDictListApi({ code: 'COMPANY_POSITION' });
-  companyPositionOptions.value = list ?? [];
+  const res = await getDictListApi({ dictCode: 'COMPANY_POSITION' });
+  companyPositionOptions.value = res.data ?? [];
 }
 
 watch(
@@ -133,14 +135,14 @@ watch(dialogVisible, (val) => {
         <ElRadioGroup v-model="formData.gender" disabled>
           <ElRadio label="MALE">男</ElRadio>
           <ElRadio label="FEMALE">女</ElRadio>
-          <ElRadio label="UNKNOWN">未知</ElRadio>
+          <!-- <ElRadio label="UNKNOWN">未知</ElRadio> -->
         </ElRadioGroup>
       </ElFormItem>
       <ElFormItem label="在职状态" prop="employmentStatus">
         <ElRadioGroup v-model="formData.employmentStatus" disabled>
-          <ElRadio label="ON_JOB">在职</ElRadio>
-          <ElRadio label="OFF_JOB">离职</ElRadio>
-          <ElRadio label="UNKNOWN">未知</ElRadio>
+          <ElRadio value="ON_JOB">在职</ElRadio>
+          <ElRadio value="OFF_JOB">离职</ElRadio>
+          <!-- <ElRadio label="UNKNOWN">未知</ElRadio> -->
         </ElRadioGroup>
       </ElFormItem>
       <ElFormItem label="邮箱" prop="email">
@@ -150,16 +152,16 @@ watch(dialogVisible, (val) => {
         <ElSelect v-model="formData.userStatus" placeholder="请选择用户状态">
           <ElOption label="启用" value="ENABLE" />
           <ElOption label="禁用" value="DISABLE" />
-          <ElOption label="未知" value="UNKNOWN" />
+          <!-- <ElOption label="未知" value="UNKNOWN" /> -->
         </ElSelect>
       </ElFormItem>
       <ElFormItem label="职位" prop="companyPosition">
         <ElSelect v-model="formData.companyPosition" placeholder="请选择职位">
           <ElOption
             v-for="opt in companyPositionOptions"
-            :key="opt.value"
-            :label="opt.label"
-            :value="opt.value"
+            :key="opt.dictItemCode"
+            :label="opt.dictItemName"
+            :value="opt.dictItemCode"
           />
         </ElSelect>
       </ElFormItem>

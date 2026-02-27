@@ -15,10 +15,10 @@ export interface RoleItem {
 export type UserStatus = 'DISABLE' | 'ENABLE' | 'UNKNOWN';
 
 /** 在职状态 */
-export type EmploymentStatus = 'ON_JOB' | 'OFF_JOB' | 'UNKNOWN';
+export type EmploymentStatus = 'OFF_JOB' | 'ON_JOB' | 'UNKNOWN';
 
 /** 性别 */
-export type Gender = 'MALE' | 'FEMALE' | 'UNKNOWN';
+export type Gender = 'FEMALE' | 'MALE' | 'UNKNOWN';
 
 /** 用户项 */
 export interface UserInfo {
@@ -59,7 +59,7 @@ export interface UserFormData {
 
 /** 用户列表响应 */
 export interface UserListResponse {
-  items: UserInfo[];
+  data: UserInfo[];
   total: number;
   currentPage: number;
   pageSize: number;

@@ -2,12 +2,7 @@
  * 用户管理内存存储，供 /api/system/users 系列接口使用
  */
 
-import type {
-  EmploymentStatus,
-  Gender,
-  UserItem,
-  UserStatus,
-} from '~/types/user';
+import type { EmploymentStatus, UserItem } from '~/types/user';
 
 let userStore: UserItem[] = [];
 let idCounter = 1;
@@ -90,12 +85,12 @@ export function setUserStore(data: UserItem[]) {
 }
 
 /** 根据 id 查找用户 */
-export function findUserById(id: number): UserItem | undefined {
+export function findUserById(id: number): undefined | UserItem {
   return getUserStore().find((item) => item.id === id);
 }
 
 /** 根据 userCode 查找用户 */
-export function findUserByCode(userCode: string): UserItem | undefined {
+export function findUserByCode(userCode: string): undefined | UserItem {
   return getUserStore().find((item) => item.userCode === userCode);
 }
 
@@ -113,7 +108,7 @@ export function addUser(item: Omit<UserItem, 'id'>): UserItem {
 export function updateUser(
   id: number,
   data: Partial<Omit<UserItem, 'id'>>,
-): UserItem | null {
+): null | UserItem {
   const index = getUserStore().findIndex((item) => item.id === id);
   if (index === -1) return null;
   const updated = { ...getUserStore()[index], ...data };
@@ -131,16 +126,16 @@ export function removeUser(id: number): boolean {
 
 /** 查询用户列表（支持分页和过滤） */
 export function queryUsers(params: {
+  employmentStatus?: EmploymentStatus;
+  pageNo?: number;
+  pageSize?: number;
   userCode?: string;
   userName?: string;
-  employmentStatus?: EmploymentStatus;
-  pageSize?: number;
-  pageNo?: number;
 }): {
-  items: UserItem[];
-  total: number;
   currentPage: number;
+  data: UserItem[];
   pageSize: number;
+  total: number;
   totalPage: number;
 } {
   const {
@@ -175,13 +170,13 @@ export function queryUsers(params: {
 
   // 分页
   const offset = (currentPage - 1) * pageSize;
-  const items =
+  const data =
     offset + pageSize >= total
       ? filteredList.slice(offset)
       : filteredList.slice(offset, offset + pageSize);
 
   return {
-    items,
+    data,
     total,
     currentPage,
     pageSize,

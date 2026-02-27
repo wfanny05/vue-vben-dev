@@ -1,7 +1,7 @@
 import { eventHandler, getQuery } from 'h3';
 import { verifyAccessToken } from '~/utils/jwt-utils';
-import { getDictList } from '~/utils/system/dict-store';
 import { unAuthorizedResponse, useResponseSuccess } from '~/utils/response';
+import { getDictList } from '~/utils/system/dict-store';
 
 export default eventHandler(async (event) => {
   const userinfo = verifyAccessToken(event);

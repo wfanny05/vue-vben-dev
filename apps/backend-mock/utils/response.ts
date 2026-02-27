@@ -2,12 +2,32 @@ import type { EventHandlerRequest, H3Event } from 'h3';
 
 import { setResponseStatus } from 'h3';
 
+const app = 'web-ele';
+
 export function useResponseSuccess<T = any>(data: T) {
+  if (app === 'web-ele') {
+    return {
+      status: 0,
+      data,
+      error: null,
+      msg: 'ok',
+    };
+  }
+
   return {
     code: 0,
     data,
     error: null,
     message: 'ok',
+  };
+}
+
+export function useResponseSuccess2<T = any>(result: T) {
+  return {
+    status: 0,
+    ...result,
+    error: null,
+    msg: 'ok',
   };
 }
 
@@ -23,6 +43,16 @@ export function usePageResponseSuccess<T = any>(
     list,
   );
 
+  if (app === 'web-ele') {
+    return {
+      ...useResponseSuccess({
+        items: pageData,
+        total: list.length,
+      }),
+      msg: message,
+    };
+  }
+
   return {
     ...useResponseSuccess({
       items: pageData,
@@ -33,6 +63,15 @@ export function usePageResponseSuccess<T = any>(
 }
 
 export function useResponseError(message: string, error: any = null) {
+  if (app === 'web-ele') {
+    return {
+      status: -1,
+      data: null,
+      error,
+      msg: message,
+    };
+  }
+
   return {
     code: -1,
     data: null,

@@ -19,6 +19,15 @@ const routes: RouteRecordRaw[] = [
         path: '/system/menu',
         component: () => import('#/views/system/menu/index.vue'),
       },
+      {
+        meta: {
+          icon: 'lucide:menu',
+          title: '用户管理',
+        },
+        name: 'SystemUser',
+        path: '/system/user',
+        component: () => import('#/views/system/user/index.vue'),
+      },
     ],
   },
 ];

@@ -50,9 +50,6 @@ function setupAccessGuard(router: Router) {
     const userStore = useUserStore();
     const authStore = useAuthStore();
 
-    // TEMP: 跳过 Login 校验
-    // accessStore.setAccessToken('test_token');
-
     // 基本路由，这些路由不需要进入权限拦截
     if (coreRouteNames.includes(to.name as string)) {
       if (to.path === LOGIN_PATH && accessStore.accessToken) {
@@ -71,6 +68,15 @@ function setupAccessGuard(router: Router) {
       if (to.meta.ignoreAccess) {
         return true;
       }
+
+      // TEMP: 设置默认用户, 跳过 Login 校验
+      authStore.authLogin({
+        selectAccount: 'vben',
+        username: 'vben',
+        password: '123456',
+        captcha: true,
+      });
+      return to;
 
       // 没有访问权限，跳转登录页面
       if (to.fullPath !== LOGIN_PATH) {

@@ -1,7 +1,7 @@
 import { eventHandler, getRouterParam, readBody } from 'h3';
 import { verifyAccessToken } from '~/utils/jwt-utils';
-import { updateUser } from '~/utils/system/users-store';
 import { unAuthorizedResponse, useResponseSuccess } from '~/utils/response';
+import { updateUser } from '~/utils/system/users-store';
 
 export default eventHandler(async (event) => {
   const userinfo = verifyAccessToken(event);

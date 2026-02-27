@@ -6,8 +6,8 @@
   "license": "MIT",
   "author": "",
   "scripts": {
-    "build": "nitro build",
-    "start": "nitro dev"
+    "build": "cross-env APP=web-ele nitro build",
+    "start": "cross-env APP=web-ele nitro dev"
   },
   "dependencies": {
     "@faker-js/faker": "catalog:",
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "catalog:",
+    "cross-env": "catalog:",
     "h3": "catalog:"
   }
 }

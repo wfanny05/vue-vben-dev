@@ -3,8 +3,8 @@
  */
 
 export interface DictItem {
-  label: string;
-  value: string;
+  dictItemName: string;
+  dictItemCode: string;
 }
 
 /** 字典项类型 */
@@ -13,19 +13,19 @@ export type DictCode = 'COMPANY_POSITION' | 'sysCode';
 /** 字典数据存储 */
 const dictStore: Record<DictCode, DictItem[]> = {
   COMPANY_POSITION: [
-    { label: '技术总监', value: 'CTO' },
-    { label: '产品总监', value: 'CPO' },
-    { label: '技术经理', value: 'TECH_MANAGER' },
-    { label: '产品经理', value: 'PRODUCT_MANAGER' },
-    { label: '高级工程师', value: 'SENIOR_ENGINEER' },
-    { label: '中级工程师', value: 'MIDDLE_ENGINEER' },
-    { label: '初级工程师', value: 'JUNIOR_ENGINEER' },
-    { label: '实习生', value: 'INTERN' },
+    { dictItemName: '技术总监', dictItemCode: 'CTO' },
+    { dictItemName: '产品总监', dictItemCode: 'CPO' },
+    { dictItemName: '技术经理', dictItemCode: 'TECH_MANAGER' },
+    { dictItemName: '产品经理', dictItemCode: 'PRODUCT_MANAGER' },
+    { dictItemName: '高级工程师', dictItemCode: 'SENIOR_ENGINEER' },
+    { dictItemName: '中级工程师', dictItemCode: 'MIDDLE_ENGINEER' },
+    { dictItemName: '初级工程师', dictItemCode: 'JUNIOR_ENGINEER' },
+    { dictItemName: '实习生', dictItemCode: 'INTERN' },
   ],
   sysCode: [
-    { label: '系统A', value: 'sys_a' },
-    { label: '系统B', value: 'sys_b' },
-    { label: '系统C', value: 'sys_c' },
+    { dictItemName: '系统A', dictItemCode: 'sys_a' },
+    { dictItemName: '系统B', dictItemCode: 'sys_b' },
+    { dictItemName: '系统C', dictItemCode: 'sys_c' },
   ],
 };
 
@@ -45,22 +45,25 @@ export function addDictItem(dictCode: DictCode, item: DictItem): void {
 /** 更新字典项 */
 export function updateDictItem(
   dictCode: DictCode,
-  value: string,
+  dictItemCode: string,
   item: Partial<DictItem>,
 ): boolean {
   const list = dictStore[dictCode];
   if (!list) return false;
-  const index = list.findIndex((i) => i.value === value);
+  const index = list.findIndex((i) => i.dictItemCode === dictItemCode);
   if (index === -1) return false;
   list[index] = { ...list[index], ...item };
   return true;
 }
 
 /** 删除字典项 */
-export function removeDictItem(dictCode: DictCode, value: string): boolean {
+export function removeDictItem(
+  dictCode: DictCode,
+  dictItemCode: string,
+): boolean {
   const list = dictStore[dictCode];
   if (!list) return false;
-  const index = list.findIndex((i) => i.value === value);
+  const index = list.findIndex((i) => i.dictItemCode === dictItemCode);
   if (index === -1) return false;
   list.splice(index, 1);
   return true;

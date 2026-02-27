@@ -1,6 +1,7 @@
 import errorHandler from './error';
 
 process.env.COMPATIBILITY_DATE = new Date().toISOString();
+
 export default defineNitroConfig({
   devErrorHandler: errorHandler,
   errorHandler: '~/error',
@@ -17,4 +18,7 @@ export default defineNitroConfig({
       },
     },
   },
+  // runtimeConfig: {
+  //   token: process.env.ACCESS_TOKEN_SECRET,
+  // },
 });

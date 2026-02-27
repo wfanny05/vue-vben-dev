@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import type { VbenFormProps } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { DictItem } from '#/api/system/dict';
-import type { UserSearchParams, UserInfo } from '#/types/system/user';
+import type { UserInfo, UserSearchParams } from '#/types/system/user';
 
 import { computed, onMounted, ref } from 'vue';
 
@@ -24,9 +25,67 @@ const emit = defineEmits<{
 const companyPositionOptions = ref<DictItem[]>([]);
 
 async function loadCompanyPositionOptions() {
-  const list = await getDictListApi({ code: 'COMPANY_POSITION' });
-  companyPositionOptions.value = list ?? [];
+  const res = await getDictListApi({ dictCode: 'COMPANY_POSITION' });
+  companyPositionOptions.value = res?.data ?? [];
 }
+
+const formOptions: VbenFormProps = {
+  // 表单配置
+  schema: [
+    {
+      component: 'Input',
+      fieldName: 'userCode',
+      label: '用户编码',
+      componentProps: {
+        placeholder: '请输入用户编码',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'userName',
+      label: '用户名称',
+      componentProps: {
+        placeholder: '请输入用户名称',
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'deptName',
+      label: '部门名称',
+      componentProps: {
+        placeholder: '请输入部门名称',
+      },
+    },
+    {
+      component: 'Select',
+      fieldName: 'employmentStatus',
+      label: '状态',
+      defaultValue: 'ON_JOB',
+      componentProps: {
+        placeholder: '请选择状态',
+        options: [
+          { label: '全部', value: 'UNKOWN' },
+          { label: '在职', value: 'ON_JOB' },
+          { label: '离职', value: 'OFF_JOB' },
+        ],
+      },
+    },
+  ],
+  // 表单布局配置
+  wrapperClass: 'grid-cols-1 md:grid-cols-4 gap-4',
+  // 表单按钮配置
+  showDefaultActions: true,
+  submitButtonOptions: {
+    content: '查询',
+  },
+  // 表单折叠按钮配置
+  collapsed: false,
+  showCollapseButton: false,
+  // 是否在字段改变时提交表单
+  submitOnChange: false,
+  // 回车键提交配置
+  submitOnEnter: true,
+};
 
 // 表格配置
 const gridOptions = computed<VxeTableGridOptions<UserInfo>>(() => ({
@@ -43,13 +102,13 @@ const gridOptions = computed<VxeTableGridOptions<UserInfo>>(() => ({
     },
     {
       field: 'companyPosition',
-      title: '职位',
+      title: '公司职位',
       minWidth: 120,
       slots: { default: 'companyPosition' },
     },
     {
       field: 'employmentStatus',
-      title: '在职状态',
+      title: '工作状态',
       width: 100,
       slots: { default: 'employmentStatus' },
     },
@@ -77,27 +136,30 @@ const gridOptions = computed<VxeTableGridOptions<UserInfo>>(() => ({
   keepSource: true,
   pagerConfig: {
     enabled: true,
-    pageSize: 10,
-    pageSizes: [10, 20, 50, 100],
+    pageSize: 15,
+    pageSizes: [10, 15, 30, 40, 50, 100],
   },
   proxyConfig: {
-    autoLoad: false,
+    autoLoad: true,
+    form: true,
+    response: {
+      result: 'data',
+      total: 'total',
+    },
     ajax: {
-      query: async ({ page }) => {
+      query: async ({ page }, formData) => {
         const params: UserSearchParams & {
-          pageSize?: number;
           pageNo?: number;
+          pageSize?: number;
         } = {
-          ...props.searchParams,
+          ...formData,
           pageSize: page.pageSize,
           pageNo: page.currentPage,
         };
         const result = await getUserListApi(params);
         return {
-          result: result.items,
-          page: {
-            total: result.total,
-          },
+          data: result.data,
+          total: result.total,
         };
       },
     },
@@ -107,10 +169,13 @@ const gridOptions = computed<VxeTableGridOptions<UserInfo>>(() => ({
     custom: true,
     refresh: true,
     zoom: true,
+    export: true,
   },
+  exportConfig: {},
 }));
 
 const [Grid, gridApi] = useVbenVxeGrid<UserInfo>({
+  formOptions,
   gridOptions: gridOptions as unknown as VxeTableGridOptions<UserInfo>,
 });
 
@@ -184,9 +249,7 @@ defineExpose({ query: doQuery });
         <ElTag v-else type="info">未知</ElTag>
       </template>
       <template #userStatus="{ row }">
-        <ElTag v-if="row.userStatus === 'ENABLE'" type="success">
-          启用
-        </ElTag>
+        <ElTag v-if="row.userStatus === 'ENABLE'" type="success"> 启用 </ElTag>
         <ElTag v-else-if="row.userStatus === 'DISABLE'" type="danger">
           禁用
         </ElTag>
